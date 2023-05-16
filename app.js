@@ -1,8 +1,14 @@
 const express = require("express");
 const app = express();
 
+app.use(express.static("public"));
+
 app.get("/", (req, res) => {
-  res.send("Hi");
+  res.sendFile(__dirname + "/signUp.html");
+});
+
+app.post("/", (req, res) => {
+  res.send("labas");
 });
 
 app.listen(3000, () => {
