@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -29,7 +30,6 @@ app.post("/", (req, res) => {
       },
     ],
   };
-
   // converting data object in to JSON string
   var jsonData = JSON.stringify(data);
 
@@ -38,17 +38,22 @@ app.post("/", (req, res) => {
   //   additional configuration containing method and authentication
   const options = {
     method: "POST",
-    auth: "ieva1:b9d63512c8ef3d97930b9904d8c75306-us14",
+    auth: "ieva1:" + process.env.KEY_TOKEN,
   };
-
   // HTTPS request
   const request = https.request(url, options, function (response) {
-    response.on("data", function (data) {
-      console.log(JSON.parse(data));
-    });
+    // checking response status code and respons depending on status is sent to the user
+    if (response.statusCode === 200) {
+      res.send("subscribed !");
+    } else {
+      res.send("error try again");
+    }
+    // loging respons when data received
+    // response.on("data", function (data) {
+    //   console.log(JSON.parse(data));
+    // });
   });
-
-  // writing data to the request body
+  //   writing data to the request body
   request.write(jsonData);
   request.end();
 });
@@ -56,7 +61,6 @@ app.post("/", (req, res) => {
 app.listen(3000, () => {
   console.log("App is running on port 3000");
 });
-// key:
-// b9d63512c8ef3d97930b9904d8c75306-us14
+
 // audience id:
 // d9289c0c80
