@@ -44,9 +44,9 @@ app.post("/", (req, res) => {
   const request = https.request(url, options, function (response) {
     // checking response status code and respons depending on status is sent to the user
     if (response.statusCode === 200) {
-      res.send("subscribed !");
+      res.sendFile(__dirname + "/success.html");
     } else {
-      res.send("error try again");
+      res.sendFile(__dirname + "/success.html");
     }
     // loging respons when data received
     // response.on("data", function (data) {
