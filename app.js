@@ -41,12 +41,12 @@ app.post("/", (req, res) => {
     auth: "ieva1:" + process.env.KEY_TOKEN,
   };
   // HTTPS request
-  const request = https.request(url, options, function (response) {
+  const request = https.request(url, options, (response) => {
     // checking response status code and respons depending on status is sent to the user
     if (response.statusCode === 200) {
       res.sendFile(__dirname + "/success.html");
     } else {
-      res.sendFile(__dirname + "/success.html");
+      res.sendFile(__dirname + "/failure.html");
     }
     // loging respons when data received
     // response.on("data", function (data) {
@@ -56,6 +56,11 @@ app.post("/", (req, res) => {
   //   writing data to the request body
   request.write(jsonData);
   request.end();
+});
+
+// taking user to sinUp form on button press in failure.html
+app.post("/failure", (req, res) => {
+  res.redirect("/");
 });
 
 app.listen(3000, () => {
